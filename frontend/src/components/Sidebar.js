@@ -28,6 +28,7 @@ function Sidebar() {
   const [questions, setQuestions] = useState([]); // 保存所有题目
   const [answers, setAnswers] = useState(Array(totalQuestions).fill(null)); // 保存选中的答案
   const [submitted, setSubmitted] = useState(false); // 是否提交的状态
+  const [score, setScore] = useState(0); // 分数
 
   // 生成 5 道题目和选项
   const generateQuestions = () => {
@@ -66,13 +67,25 @@ function Sidebar() {
     }
   };
 
-  // 提交答案
+  // 提交答案并计算分数
   const handleSubmit = () => {
+    let newScore = 0;
+    answers.forEach((answer, index) => {
+      if (answer === questions[index].correctImage) {
+        newScore += 1; // 如果答案正确，分数加一
+      }
+    });
+    setScore(newScore);
     setSubmitted(true); // 设置为已提交状态
-    alert('Submitted successfully!'); // 提交成功提示
+  };
+
+  // 重新开始
+  const handleRestart = () => {
+    setSubmitted(false);
     setAnswers(Array(totalQuestions).fill(null)); // 重置答案
     setQuestions(generateQuestions()); // 生成新的题目
     setCurrentQuestion(1); // 重置题目编号为第一题
+    setScore(0); // 重置分数
   };
 
   return (
@@ -109,6 +122,7 @@ function Sidebar() {
                   value={option}
                   checked={answers[currentQuestion - 1] === option}
                   onChange={(e) => handleOptionChange(e, currentQuestion - 1)}
+                  disabled={submitted} // 提交后禁用选项
                 />
                 <label htmlFor={`option${index}`}>
                   <img src={option} alt={`Option ${index + 1}`} />
@@ -129,16 +143,25 @@ function Sidebar() {
             Next
           </button>
         ) : (
-          <button onClick={handleSubmit}>
+          <button onClick={handleSubmit} disabled={submitted}>
             Submit
           </button>
         )}
       </div>
+
+      {/* 分数显示和重新开始按钮 */}
+      {submitted && (
+        <div className="score-section">
+          <p>Your score: {score} / {totalQuestions}</p>
+          <button onClick={handleRestart}>Restart</button>
+        </div>
+      )}
     </div>
   );
 }
 
 export default Sidebar;
+
 
 
 
