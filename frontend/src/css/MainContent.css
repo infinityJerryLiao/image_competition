@@ -220,3 +220,65 @@ p {
   width: 48px;
   height: 48px;
 }
+
+/* 保留原有样式 */
+
+/* 旧 MainContent 样式 */
+.cloner-cube-simple-wrapper {
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.cloner-cube-simple {
+  width: 100%;
+  flex-grow: 1;
+}
+
+.button-group {
+  display: flex;
+  gap: 40px;
+  width: 100%;
+  align-items: center;
+}
+
+.button {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 80px;
+  border-radius: 15px;
+  border: 2px solid transparent;
+  border-image: linear-gradient(to bottom, rgb(5, 172, 241), rgb(99, 102, 242)) 1;
+}
+
+.text-wrapper-4 {
+  background: linear-gradient(180deg, rgb(33, 152, 242) 0%, rgb(106, 14, 255) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: var(--h-secondary-bold-font-family);
+  font-weight: var(--h-secondary-bold-font-weight);
+}
+
+.arrow-forward {
+  width: 24px;
+  height: 24px;
+}
+
+.icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.img-3 {
+  width: 48px;
+  height: 48px;
+}

@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import '../css/MainContent.css'; // 更新后的样式文件
 import logo from '../img/logo.svg';  // 使用 import 引入图片
 import menuIcon from '../img/menu-1.svg';  // 引入菜单图标
+import githubIcon from '../img/github-24-outline-1.svg';
+import instagramIcon from '../img/instagram-24-outline-1.svg';
+import facebookIcon from '../img/facebook-24-outline-1.svg';
+import linkedinIcon from '../img/linkedin-24-outline-1.svg';
+import arrowForwardIcon from '../img/arrow-forward-1.svg';
 
 const exampleImages = [
   '/img/examples/koala001.jpg',
@@ -167,6 +172,18 @@ function MainContent() {
               <button onClick={handleReset}>Reset</button>
             </div>
           )}
+        </div>
+        <div className="button-group">
+          <button className="button">
+            <div className="text-wrapper-4">Explore</div>
+            <img className="arrow-forward" src={arrowForwardIcon} alt="Arrow Forward" />
+          </button>
+          <div className="icons">
+            <img className="img-3" src={githubIcon} alt="GitHub" />
+            <img className="img-3" src={instagramIcon} alt="Instagram" />
+            <img className="img-3" src={facebookIcon} alt="Facebook" />
+            <img className="img-3" src={linkedinIcon} alt="LinkedIn" />
+          </div>
         </div>
       </div>
     </div>
