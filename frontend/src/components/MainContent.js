@@ -8,14 +8,7 @@ import facebookIcon from '../img/facebook-24-outline-1.svg';
 import linkedinIcon from '../img/linkedin-24-outline-1.svg';
 import arrowForwardIcon from '../img/arrow-forward-1.svg';
 
-const exampleImages = [
-  '/img/examples/koala001.jpg',
-  '/img/examples/koala002.jpg',
-  '/img/examples/koala01.jpg',
-  '/img/examples/koala02.jpg',
-  '/img/examples/koala03.jpg',
-];
-
+// 错误图片的相对路径（从 public 文件夹开始）
 const optionImages = [
   '/img/options/cat01.jpg',
   '/img/options/dog01.jpg',
@@ -34,22 +27,36 @@ function MainContent() {
   const [answers, setAnswers] = useState(Array(totalQuestions).fill(null)); // 保存选中的答案
   const [submitted, setSubmitted] = useState(false); // 是否提交的状态
   const [score, setScore] = useState(0); // 分数
+  const [exampleImages, setExampleImages] = useState([]); // 用于存储服务器返回的考拉图片
+
+  // 从服务器获取考拉图片
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/images');
+        const data = await response.json();
+        console.log('Fetched images:', data); 
+        setExampleImages(data); // 设置考拉图片
+      } catch (error) {
+        console.error('Error fetching images:', error);
+      }
+    };
+
+    fetchImages(); // 调用函数获取图片
+  }, []);
 
   // 生成题目
-  const generateQuestions = () => {
-    const newQuestions = Array.from({ length: totalQuestions }, () => {
-      const correctImage = exampleImages[Math.floor(Math.random() * exampleImages.length)];
-      const wrongImages = shuffleArray(optionImages).slice(0, 3);
-      const allOptions = shuffleArray([...wrongImages, correctImage]);
-      return { correctImage, allOptions };
-    });
-    return newQuestions;
-  };
-
-  // 初始化时生成题目，只执行一次
   useEffect(() => {
-    setQuestions(generateQuestions());
-  }, []);
+    if (exampleImages.length > 0) {
+      const newQuestions = Array.from({ length: totalQuestions }, () => {
+        const correctImage = exampleImages[Math.floor(Math.random() * exampleImages.length)];
+        const wrongImages = shuffleArray(optionImages).slice(0, 3);
+        const allOptions = shuffleArray([...wrongImages, correctImage]);
+        return { correctImage, allOptions };
+      });
+      setQuestions(newQuestions);
+    }
+  }, [exampleImages]);
 
   // 处理选项改变
   const handleOptionChange = (event, index) => {
@@ -88,7 +95,7 @@ function MainContent() {
   const handleReset = () => {
     setSubmitted(false);
     setAnswers(Array(totalQuestions).fill(null));
-    setQuestions(generateQuestions());
+    setQuestions([]);
     setCurrentQuestion(1);
     setScore(0); // 重置分数
   };
@@ -143,7 +150,7 @@ function MainContent() {
                       onChange={(e) => handleOptionChange(e, currentQuestion - 1)}
                     />
                     <label htmlFor={`option${index}`}>
-                      <img src={option} alt={`Option ${index + 1}`} />
+                      <img src={`http://localhost:3001${option}`} alt={`Option ${index + 1}`} />
                     </label>
                   </div>
                 ))}
@@ -191,4 +198,5 @@ function MainContent() {
 }
 
 export default MainContent;
+
 
